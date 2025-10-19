@@ -1,0 +1,41 @@
+1️⃣ Start কনটেইনার
+
+PowerShell বা CMD-এ গিয়ে:
+
+cd C:\Users\uiu\Downloads\my_lamp
+docker-compose up -d
+
+
+-d মানে detached mode, container background-এ চলবে।
+
+সব container (web + db) আবার চালু হবে।
+
+2️⃣ Stop কনটেইনার
+docker-compose down
+
+
+সব container বন্ধ হয়ে যাবে।
+
+Network ও temporary container clean হবে।
+
+3️⃣ Container স্ট্যাটাস চেক করা
+docker ps
+
+
+Running containers দেখাবে।
+
+বন্ধ container দেখতে:
+
+docker ps -a
+
+4️⃣ Restart (প্রয়োজনে)
+docker-compose restart
+
+
+সব container restart হবে, ডাটাবেস data safe থাকবে যদি volume mapping ঠিক থাকে।
+
+💡 Tip:
+
+Power loss বা restart-এর পর docker-compose up -d দিয়ে container চালু করতে হবে।
+
+ডাটাবেস data loss হবে না যদি volume properly map করা থাকে।
