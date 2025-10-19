@@ -1,0 +1,80 @@
+Microsoft Windows [Version 10.0.22000.2538]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\uiu>cd C:\Users\uiu\Downloads\my_lamp
+
+C:\Users\uiu\Downloads\my_lamp>docker-compose up -d
+time="2025-10-19T12:43:02+06:00" level=warning msg="C:\\Users\\uiu\\Downloads\\my_lamp\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+[+] Running 2/2
+ ✔ Container my_lamp-db-1   Running                                                                                0.0s
+ ✔ Container my_lamp-web-1  Started                                                                                0.3s
+
+C:\Users\uiu\Downloads\my_lamp>docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS              PORTS                                         NAMES
+849c7fbb5cdb   my_lamp-web   "docker-php-entrypoi…"   15 minutes ago   Up 8 seconds        0.0.0.0:8080->80/tcp, [::]:8080->80/tcp       my_lamp-web-1
+bb260b85fae6   mysql:8.0     "docker-entrypoint.s…"   15 minutes ago   Up About a minute   0.0.0.0:3306->3306/tcp, [::]:3306->3306/tcp   my_lamp-db-1
+
+C:\Users\uiu\Downloads\my_lamp>docker exec -it my_lamp-db-1 mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE myapp;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE myapp;
+Database changed
+mysql> CREATE TABLE users (
+    ->     id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     name VARCHAR(50) NOT NULL,
+    ->     email VARCHAR(50) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> SHOW TABLES;
++-----------------+
+| Tables_in_myapp |
++-----------------+
+| users           |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> --  user  , delete
+mysql> DROP USER IF EXISTS 'testuser'@'%';
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>
+mysql> --  user
+mysql> CREATE USER 'testuser'@'%' IDENTIFIED BY 'testpass';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> --  access permission
+mysql> GRANT ALL PRIVILEGES ON myapp.* TO 'testuser'@'%';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> -- changes apply
+mysql> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> USE myapp;
+Database changed
+mysql> SELECT * FROM users;
++----+--------+--------------------+
+| id | name   | email              |
++----+--------+--------------------+
+|  1 | Rafsan | rafsan@example.com |
++----+--------+--------------------+
+1 row in set (0.00 sec)
+
+mysql>
